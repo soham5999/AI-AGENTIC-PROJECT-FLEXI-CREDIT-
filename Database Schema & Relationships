@@ -1,0 +1,9 @@
+The application uses SQLite with four core entities:
+
+Vehicle: Stores static and dynamic sensor telemetry (make, model, year, mileage, brake_wear_pct, battery_voltage, oil_life_pct, etc.).
+
+MaintenanceRecord: Tracks historical service entries (date, mileage, service_type, cost, notes).
+
+PredictionRecord: Stores historical ML inferences (risk_level, probability, maintenance_required, timestamp).
+
+DatasetMeta: Stores metadata for uploaded training datasets (filename, records, features, uploaded_at).
