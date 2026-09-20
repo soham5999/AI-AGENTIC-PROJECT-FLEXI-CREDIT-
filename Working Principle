@@ -1,0 +1,15 @@
+Telemetry Input: Vehicle parameters (mileage, battery_voltage, brake_wear_pct, oil_life_pct, etc.) are captured via the UI or retrieved from SQLite.
+
+Agent Initialization: The user queries the agent (e.g., "Analyze my vehicle state").
+
+Tool Execution Loop:
+
+get_vehicle_information() retrieves telemetry from SQLite.
+
+predict_vehicle_maintenance() routes features through the trained Random Forest model to calculate risk probability.
+
+analyze_vehicle_health() calculates subsystem wear scores and identifies critical anomalies.
+
+save_prediction() persists the generated prediction and probability to the database.
+
+Natural Language Generation: The AI Agent synthesizes tool outputs into a structured response containing a reasoning summary, health score, urgency window, and prioritized recommended actions.
