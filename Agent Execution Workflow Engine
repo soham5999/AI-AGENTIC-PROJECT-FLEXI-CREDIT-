@@ -1,0 +1,47 @@
+from app.agent.tools import predict_vehicle_maintenance, analyze_vehicle_health, get_vehicle_information, save_prediction_record
+
+class MaintenanceAIAgent:
+    def run_workflow(self, user_prompt: str, vehicle_id: int = 1):
+        # Tool 1: Fetch Vehicle Telemetry
+        v_info = get_vehicle_information(vehicle_id)
+        
+        # Format ML inputs
+        ml_input = {
+            "vehicle_age": 2026 - v_info.get("year", 2022),
+            "odometer_km": v_info.get("mileage", 50000.0),
+            "days_since_service": v_info.get("days_since_service", 100),
+            "battery_voltage": v_info.get("battery_voltage", 12.4),
+            "engine_temp": v_info.get("engine_temp", 90.0),
+            "brake_wear_pct": v_info.get("brake_wear_pct", 30.0),
+            "tire_pressure_avg": v_info.get("tire_pressure_avg", 32.0),
+            "oil_life_pct": v_info.get("oil_life_pct", 70.0)
+        }
+
+        # Tool 2 & 3: ML Inference & Subsystem Health Check
+        ml_res = predict_vehicle_maintenance(ml_input)
+        health_res = analyze_vehicle_health(ml_input)
+        
+        # Tool 4: Persist Results
+        save_prediction_record(vehicle_id, ml_res)
+
+        # Fallback Rule-Based Autonomous Reasoning Synthesizer
+        flagged = ml_res["flagged_components"]
+        reasoning = f"ML model predicted a {ml_res['probability']}% failure probability ({ml_res['risk_level']} Risk). "
+        if flagged:
+            reasoning += f"Anomalies detected in: {', '.join(flagged)}."
+
+        actions = []
+        if "Brakes" in flagged: actions.append("Inspect and replace worn brake pads.")
+        if "Engine Oil" in flagged: actions.append("Perform full oil change service.")
+        if "Battery" in flagged: actions.append("Check battery terminal voltage and alternator.")
+        if not actions: actions.append("No immediate repairs required. Continue regular maintenance.")
+
+        return {
+            "health_score": health_res["health_score"],
+            "risk_level": ml_res["risk_level"],
+            "probability": ml_res["probability"],
+            "reasoning_summary": reasoning,
+            "recommended_actions": actions,
+            "urgency": "Within 7 Days" if ml_res["risk_level"] == "HIGH" else "Routine Maintenance",
+            "tools_executed": ["get_vehicle_information", "predict_vehicle_maintenance", "analyze_vehicle_health", "save_prediction"]
+        }
