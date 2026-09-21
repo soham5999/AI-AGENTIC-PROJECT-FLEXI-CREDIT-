@@ -1,0 +1,13 @@
+@echo off
+echo ============================================================
+echo Starting VehicleCare AI Platform...
+echo ============================================================
+echo [1/3] Checking dependencies...
+pip install -r backend/requirements.txt --quiet
+echo [2/3] Checking SQLite database and ML model...
+python backend/seed_data.py
+echo [3/3] Starting FastAPI server on http://localhost:8000 ...
+echo - Web Dashboard: http://localhost:8000
+echo - Swagger API:   http://localhost:8000/docs
+python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload
+pause

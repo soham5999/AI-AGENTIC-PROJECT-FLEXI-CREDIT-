@@ -1,0 +1,51 @@
+{
+  "accuracy": 90.8,
+  "precision": 87.2,
+  "recall": 89.1,
+  "f1Score": 88.2,
+  "confusionMatrix": {
+    "truePositives": 41,
+    "falsePositives": 6,
+    "trueNegatives": 68,
+    "falseNegatives": 5
+  },
+  "featureImportances": [
+    {
+      "feature": "DAYS SINCE SERVICE",
+      "importance": 33
+    },
+    {
+      "feature": "OIL LIFE PCT",
+      "importance": 31
+    },
+    {
+      "feature": "BRAKE WEAR PCT",
+      "importance": 16
+    },
+    {
+      "feature": "BATTERY VOLTAGE",
+      "importance": 6
+    },
+    {
+      "feature": "ODOMETER KM",
+      "importance": 5
+    },
+    {
+      "feature": "ENGINE TEMP",
+      "importance": 4
+    },
+    {
+      "feature": "VEHICLE AGE",
+      "importance": 3
+    },
+    {
+      "feature": "TIRE PRESSURE AVG",
+      "importance": 3
+    }
+  ],
+  "sampleSize": 600,
+  "trainSize": 480,
+  "testSize": 120,
+  "modelType": "Random Forest Classifier (Scikit-Learn)",
+  "lastTrained": "2026-09-21 05:00:13 UTC"
+}
